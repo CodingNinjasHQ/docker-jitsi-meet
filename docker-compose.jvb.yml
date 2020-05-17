@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+    # Video bridge
+    jvb:
+        image: jitsi/jvb
+        ports:
+            - '${JVB_PORT}:${JVB_PORT}/udp'
+            - '${JVB_TCP_PORT}:${JVB_TCP_PORT}'
+        volumes:
+            - ${CONFIG}/jvb:/config
+        environment:
+            - DOCKER_HOST_ADDRESS
+            - XMPP_DOMAIN
+            - XMPP_AUTH_DOMAIN
+            - XMPP_INTERNAL_MUC_DOMAIN
+            - XMPP_SERVER
+            - JVB_AUTH_USER
+            - JVB_AUTH_PASSWORD
+            - JVB_BREWERY_MUC
+            - JVB_PORT
+            - JVB_TCP_HARVESTER_DISABLED
+            - JVB_TCP_PORT
+            - JVB_STUN_SERVERS
+            - JVB_ENABLE_APIS
+            # - JVB_OCTO_BIND_PORT
+            # - JVB_OCTO_REGION
+            - TZ
+        networks:
+            meet.jitsi:
+                aliases: 
+                    - ${JVB_AUTH_USER}.${XMPP_DOMAIN}
+
+# Custom network so all services can communicate using a FQDN
+networks:
+    meet.jitsi:
