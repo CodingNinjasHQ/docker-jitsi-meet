@@ -23,5 +23,5 @@ fi
 
 
 if [ $HEALTH_STATUS == "UNHEALTHY" ]; then
-    aws autoscaling set-instance-health --instance-id $INSTANCE_ID --health-status Unhealthy --no-should-respect-grace-period --region $REGION
+    aws autoscaling set-instance-health --instance-id $INSTANCE_ID --health-status Unhealthy --should-respect-grace-period --region $REGION
 fi
