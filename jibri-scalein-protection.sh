@@ -22,8 +22,6 @@ else
 fi
 
 
-if [ $HEALTH_STATUS == "HEALTHY" ]; then
-    aws autoscaling set-instance-health --instance-id $INSTANCE_ID --health-status Healthy --no-should-respect-grace-period --region $REGION
-else
-    aws autoscaling set-instance-health --instance-id $INSTANCE_ID --health-status Unhealthy --should-respect-grace-period --region $REGION
+if [ $HEALTH_STATUS == "UNHEALTHY" ]; then
+    aws autoscaling set-instance-health --instance-id $INSTANCE_ID --health-status Unhealthy --no-should-respect-grace-period --region $REGION
 fi
