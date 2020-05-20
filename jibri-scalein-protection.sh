@@ -9,19 +9,19 @@ BUSY_STATUS=${BUSY_STATUS:="NULL"}
 HEALTH_STATUS=$(echo $HEALTH_DATA | jq '.status.health.healthStatus')
 HEALTH_STATUS=${HEALTH_STATUS:="NULL"}
 
-if [ $BUSY_STATUS == "IDLE" ]; then
+if [ $BUSY_STATUS == '"IDLE"' ]; then
     aws cloudwatch put-metric-data --metric-name 'jibri:available' --namespace Jitsi --value 1 --timestamp $(date +%FT%T%:z) --region $REGION
 else
     aws cloudwatch put-metric-data --metric-name 'jibri:available' --namespace Jitsi --value 0 --timestamp $(date +%FT%T%:z) --region $REGION
 fi
 
-if [ $BUSY_STATUS == "BUSY" ]; then
+if [ $BUSY_STATUS == '"BUSY"' ]; then
     aws autoscaling set-instance-protection --instance-ids $INSTANCE_ID --auto-scaling-group-name "$ASG_NAME" --protected-from-scale-in --region $REGION
 else
     aws autoscaling set-instance-protection --instance-ids $INSTANCE_ID --auto-scaling-group-name "$ASG_NAME" --no-protected-from-scale-in --region $REGION
 fi
 
 
-if [ $HEALTH_STATUS == "UNHEALTHY" ]; then
+if [ $HEALTH_STATUS == '"UNHEALTHY"' ]; then
     aws autoscaling set-instance-health --instance-id $INSTANCE_ID --health-status Unhealthy --should-respect-grace-period --region $REGION
 fi
