@@ -8,6 +8,8 @@ services:
             - ${CONFIG}/jibri:/config:Z
             - /dev/shm:/dev/shm
             - ~/recordings:/recordings
+            - /usr/local/bin:/usr/local/bin
+            - /usr/local/aws-cli:/usr/local/aws-cli
         ports: 
             - '2222:2222' #Internal API
         cap_add:
